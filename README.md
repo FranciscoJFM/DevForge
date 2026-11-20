@@ -28,11 +28,15 @@ npm run build
 - CotizaFácil incluye una demo que calcula totales en MXN e imprime la cotización o permite guardarla como PDF desde el navegador.
 - El buscador guarda favoritos y enlaces recientes en el navegador. Portfolio y Project Builder exportan archivos locales. El episodio de REST tiene transcripción y narración según la voz disponible en el navegador.
 
+## Document Studio
+
+En `/documentos` puedes editar y previsualizar una memoria técnica, un diseño funcional, un contrato de integración, un plan de liberación o una matriz QA/UAT. El Word y el Excel se generan en el navegador. El PDF se guarda desde el diálogo de impresión. Para pasar datos del expediente a una memoria, abre Document Studio desde el expediente y usa la opción de importar en la misma pestaña.
+
 ## Importante antes de publicar
 
 ### Moderación del foro
 
-El foro usa el servidor de Next.js y guarda envíos en un directorio privado del sistema de archivos. En local se usa `.data/forum`. Para alojarlo, define `FORUM_DATA_DIR` con una ruta absoluta en un volumen privado y persistente accesible para el servidor y el moderador.
+El foro usa el servidor de Next.js y guarda envíos en un directorio privado del sistema de archivos. Cuando Vercel establece `VERCEL=1`, el foro opera en modo informativo y la acción del servidor rechaza envíos hasta que se integre un backend persistente. En local se usa `.data/forum`. Para alojarlo, define `FORUM_DATA_DIR` con una ruta absoluta en un volumen privado y persistente accesible para el servidor y el moderador.
 
 Desde la raíz de la aplicación:
 

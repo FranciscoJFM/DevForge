@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { studyTracks } from '@/lib/studyTracks';
+import { studyPrograms } from '@/lib/studyPrograms';
 
 type RouteProps = { params: Promise<{ ruta: string }> };
 
@@ -19,6 +20,7 @@ export default async function StudyTrackPage({ params }: RouteProps) {
     const { ruta } = await params;
     const track = studyTracks.find(item => item.slug === ruta);
     if (!track) notFound();
+    const program = studyPrograms[track.slug];
 
     return <main className="containerx py-16">
         <Link href="/academia" className="btn-secondary">Todas las rutas</Link>
@@ -34,6 +36,18 @@ export default async function StudyTrackPage({ params }: RouteProps) {
                 </li>)}
             </ol>
         </section>
+        {program && <section className="panel mt-7 p-6" aria-labelledby="study-program">
+            <h2 id="study-program" className="section-title">Programa por módulos</h2>
+            <p className="subtle mt-3">Completa los módulos en orden. Guarda una prueba o captura por cada entrega que quieras incluir en tu expediente.</p>
+            <ol className="mt-5 space-y-4">
+                {program.map(([title, goal, evidence], index) => <li key={title} className="rounded-xl border border-[color:var(--line)] p-4">
+                    <h3 className="font-bold">{index + 1}. {title}</h3>
+                    <p className="subtle mt-1">{goal}</p>
+                    <p className="mt-2"><strong>Práctica verificable.</strong> {evidence}</p>
+                </li>)}
+            </ol>
+            <p className="subtle mt-5">Evaluación final. Demuestra el flujo principal, reproduce un fallo y explica una decisión que tomarías de otra manera en producción.</p>
+        </section>}
         <section className="panel mt-7 p-6" aria-labelledby="project-milestones">
             <h2 id="project-milestones" className="section-title">Proyecto por entregas</h2>
             <p className="subtle mt-3">{track.project}</p>

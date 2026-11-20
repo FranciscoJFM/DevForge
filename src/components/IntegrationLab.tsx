@@ -120,6 +120,7 @@ export default function IntegrationLab() {
                     </div>}
                 </section>
             </div>
+            {!soap && <Link className="btn-secondary" href={'/documentos?plantilla=qa&metodo=' + method}>Preparar casos de prueba de esta operación</Link>}
             <section className="panel p-5">
                 <h2 className="text-xl font-bold">Consumir esta operación desde tu código</h2>
                 <p className="subtle mt-2">Usa el ejemplo con tu servicio autorizado. Los clientes JavaScript y cURL usan un dominio reservado. El ejemplo Apex requiere una Named Credential llamada DevForgeDemo. Los clientes nativos de ejemplo codifican el cuerpo en Base64 para conservar exactamente los caracteres de la solicitud.</p>

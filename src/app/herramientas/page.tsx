@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 };
 
 const labs = [
+    ['Document Studio', 'Word, PDF, Excel y Markdown', '/documentos'],
     ['Expediente de proyecto', 'Exporta decisiones, pruebas y capturas', '/expediente'],
     ['Cliente HTTP', 'Peticiones reales desde el navegador', '/cliente-http'],
     ['Extensiones para tu IDE', 'Apex, Android, web y APIs', '/ide'],

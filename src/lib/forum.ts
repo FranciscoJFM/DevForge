@@ -5,6 +5,10 @@ import { randomUUID } from 'node:crypto';
 
 const forumDirectory = () => process.env.FORUM_DATA_DIR?.trim() || join(process.cwd(), '.data', 'forum');
 
+export function forumAcceptsSubmissions() {
+    return process.env.VERCEL !== '1';
+}
+
 export type ForumPost = {
     id: string;
     category: string;

@@ -73,7 +73,7 @@ export default function DevelopmentPage() {
                         ))}
                     </div>
                     {area.id === 'salesforce' && (
-                        <a className="mt-4 inline-block text-[color:var(--accent)]" href="https://developer.salesforce.com/docs/platform/api-rest/guide/resources-query">Documentación de consultas REST de Salesforce</a>
+                        <div className="mt-4 flex flex-wrap items-center gap-3"><Link href="/documentos?plantilla=liberacion&plataforma=salesforce" className="btn-secondary">Preparar una entrega Salesforce</Link><a className="inline-block text-[color:var(--accent)]" href="https://developer.salesforce.com/docs/platform/api-rest/guide/resources-query">Documentación de consultas REST de Salesforce</a></div>
                     )}
                 </section>
             ))}

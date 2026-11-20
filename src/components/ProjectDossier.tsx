@@ -118,6 +118,11 @@ export default function ProjectDossier({ initial }: { initial: Initial }) {
         <div className="mt-5 flex flex-wrap gap-3">
             <button type="button" disabled={exporting} className="btn-primary" onClick={() => void exportDossier('md')}>Descargar Markdown</button>
             <button type="button" disabled={exporting} className="btn-secondary" onClick={() => void exportDossier('html')}>{exporting ? 'Preparando HTML…' : 'Descargar HTML'}</button>
+            <Link className="btn-secondary" href="/documentos?plantilla=memoria" onClick={() => {
+                try {
+                    sessionStorage.setItem('devforge-document-dossier', JSON.stringify({ title, values }));
+                } catch { /* The destination can still be filled manually. */ }
+            }}>Llevar al Document Studio</Link>
             <Link className="btn-secondary" href="/portafolio">Preparar mi portafolio</Link>
         </div>
         {status && <p role="status" className="subtle mt-3">{status}</p>}

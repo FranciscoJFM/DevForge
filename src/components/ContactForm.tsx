@@ -1,11 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from 'react';
-import { useSearchParams } from 'next/navigation';
 
-export default function ContactForm() {
-    const product = useSearchParams().get('producto');
-    const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim();
+export default function ContactForm({ product, contactEmail }: { product: string; contactEmail: string }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [previousProduct, setPreviousProduct] = useState(product);

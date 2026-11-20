@@ -1,9 +1,10 @@
 "use server";
 
 import { forumCategories } from '@/lib/forumCategories';
-import { saveForumPost } from '@/lib/forum';
+import { forumAcceptsSubmissions, saveForumPost } from '@/lib/forum';
 
 export async function submitForumPost(_previous: { message: string; success: boolean }, form: FormData) {
+    if (!forumAcceptsSubmissions()) return { message: 'El foro aún no recibe envíos en este alojamiento.', success: false };
     const category = String(form.get('category') ?? '');
     const title = String(form.get('title') ?? '').trim();
     const body = String(form.get('body') ?? '').trim();

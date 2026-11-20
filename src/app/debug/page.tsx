@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import QuickFixes from '@/components/QuickFixes';
 
 export const metadata: Metadata = { title: 'Debug Lab', description: 'Diagnósticos reproducibles de Next.js, Salesforce REST y SOAP.' };
 
@@ -55,6 +56,7 @@ export default function DebugLab() {
                     </article>
                 ))}
             </div>
+            <QuickFixes />
         </main>
     );
 }

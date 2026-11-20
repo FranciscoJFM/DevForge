@@ -1,1 +1,21 @@
-import {Suspense} from 'react';import type {Metadata} from 'next';import ContactForm from '@/components/ContactForm';export const metadata:Metadata={title:'Contacto'};export default function Contact(){return <main className="containerx py-16 max-w-3xl"><span className="pill">HABLEMOS</span><h1 className="text-4xl font-black mt-5">Tu idea merece construirse.</h1><p className="subtle mt-4 mb-9">Pregunta por una microapp o describe tu problema de desarrollo.</p><Suspense fallback={<div className="panel p-7">Cargando formulario…</div>}><ContactForm/></Suspense></main>}
+import type { Metadata } from 'next';
+import ContactForm from '@/components/ContactForm';
+
+export const metadata: Metadata = { title: 'Contacto' };
+
+export default async function Contact({ searchParams }: { searchParams: Promise<{ producto?: string }> }) {
+    const { producto } = await searchParams;
+    const product = typeof producto === 'string' ? producto.trim().slice(0, 100) : '';
+    const configured = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ?? '';
+    const contactEmail = /^[^\s?&@]+@[^\s?&@]+\.[^\s?&@]+$/.test(configured) ? configured : '';
+
+    return <main className="containerx max-w-3xl py-12 md:py-16">
+        <header className="page-intro mb-6">
+            <h1>Contacto</h1>
+            <p>Pregunta por una microapp o cuéntanos qué necesitas resolver.</p>
+        </header>
+        {contactEmail && <a className="btn-secondary mb-5" href={'mailto:' + contactEmail}>Escribir directamente por correo</a>}
+        <noscript><p className="panel mb-5 p-4">Con JavaScript desactivado, prepara tu consulta con tu nombre, correo y una descripción de lo que necesitas.</p></noscript>
+        <ContactForm product={product} contactEmail={contactEmail} />
+    </main>;
+}

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from 'react';
+import Link from 'next/link';
 import ToolHelp, { HelpText } from './ToolHelp';
 import { clientCode } from '@/lib/integrationClient';
 import { initialRecords, soapExample, soapNamespace } from '@/lib/integrationLab';
 import { downloadText } from '@/lib/localDownload';
 import { unitTestExamples } from '@/lib/unitTestExamples';
+import { memoryFields, sampleMemory } from '@/lib/technicalMemory';
 import { toolStacks, type ToolStack } from '@/lib/toolStacks';
 
 const templates = [
@@ -15,6 +17,7 @@ const templates = [
     { title: 'Registro de decisión', sections: ['Contexto', 'Opciones', 'Decisión', 'Consecuencias', 'Responsable'] },
     { title: 'Guía de entrega', sections: ['Alcance', 'Dependencias', 'Pasos de entrega', 'Verificación', 'Reversión', 'Responsable'] },
     { title: 'Documentación funcional', sections: ['Objetivo y alcance', 'Actores', 'Flujo principal', 'Reglas de negocio', 'Criterios de aceptación', 'Fuera de alcance'] },
+    { title: 'Memoria técnica', sections: memoryFields.map(field => field.title) },
     { title: 'Documentación técnica', sections: ['Arquitectura', 'Componentes y dependencias', 'Modelo de datos y contratos', 'Configuración por ambiente', 'Observabilidad', 'Pruebas'] },
     { title: 'Manual de usuario', sections: ['A quién va dirigido', 'Antes de empezar', 'Pasos de uso', 'Solución de problemas', 'Canal de soporte'] },
     { title: 'Caso de uso', sections: ['Actor y objetivo', 'Precondiciones', 'Flujo principal', 'Flujos alternativos', 'Resultado esperado'] },
@@ -56,7 +59,9 @@ export default function DocumentationGenerator({ stack }: { stack: ToolStack }) 
     const [title, setTitle] = useState('');
     const [markdown, setMarkdown] = useState<string | null>(null);
     const [status, setStatus] = useState('');
+    const [memoryDraft, setMemoryDraft] = useState<Record<string, string>>({});
     const template = templates[selected];
+    const isMemory = template.title === 'Memoria técnica';
     const technology = toolStacks[stack];
     const soap = template.protocol === 'soap';
     const method = soap ? 'POST' : 'GET';
@@ -69,9 +74,16 @@ export default function DocumentationGenerator({ stack }: { stack: ToolStack }) 
         <section id="documentacion" aria-labelledby="documentation-heading" className="panel mt-8 scroll-mt-24 p-6">
             <h2 id="documentation-heading" className="text-xl font-bold">Generador de documentación Markdown</h2>
             <p className="subtle mt-2">Genera un borrador y completa las secciones con datos de tu proyecto. Usa ejemplos sin credenciales.</p>
+            <Link className="btn-secondary mt-4" href="/documentos">Abrir Document Studio para Word, PDF o Excel</Link>
             <form className="mt-5 space-y-4" onSubmit={event => {
                 event.preventDefault();
                 const heading = title.trim() || template.title;
+                if (isMemory) {
+                    const filled = memoryFields.map(field => '## ' + field.title + '\n\n' + (memoryDraft[field.title]?.trim() || 'Pendiente de confirmar.')).join('\n\n');
+                    setMarkdown('# ' + heading + '\n\nTecnología: ' + technology.label + '\n\n' + filled + '\n');
+                    setStatus('Memoria técnica generada.');
+                    return;
+                }
                 const hints: Record<string, string> = {
                     Requisitos: technology.requirement,
                     Pruebas: technology.verification,
@@ -113,10 +125,27 @@ export default function DocumentationGenerator({ stack }: { stack: ToolStack }) 
                     <label htmlFor="documentation-title" className="font-semibold">Título (opcional)</label>
                     <input id="documentation-title" className="field mt-2" value={title} maxLength={100} onChange={event => setTitle(event.target.value)} />
                 </div>
+                {isMemory && <div className="space-y-4">
+                    <p className="subtle">Describe cómo funciona la solución y cómo se comprueba. Las secciones sin completar quedan pendientes de confirmar.</p>
+                    <button type="button" className="btn-secondary" onClick={() => {
+                        setTitle('Consulta de pedidos · ejemplo ficticio');
+                        setMemoryDraft(Object.fromEntries(memoryFields.map(field => [field.title, field.example])));
+                        setStatus('Ejemplo ficticio cargado.');
+                    }}>Cargar memoria de ejemplo</button>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {memoryFields.map(({ title: fieldTitle }, index) => <label key={fieldTitle} className="block font-semibold">{fieldTitle}
+                            <textarea className="field mt-2 min-h-28 font-normal" required={index < 2} maxLength={3000}
+                                value={memoryDraft[fieldTitle] ?? ''} onChange={event => {
+                                    const value = event.target.value;
+                                    setMemoryDraft(current => ({ ...current, [fieldTitle]: value }));
+                                }} />
+                        </label>)}
+                    </div>
+                </div>}
                 <button type="submit" className="btn-primary">Generar borrador</button>
             </form>
             <ToolHelp key={template.title} title={'Ayuda y ejemplo · ' + template.title}>
-                {code ? <>
+                {isMemory ? <HelpText>{sampleMemory}</HelpText> : code ? <>
                     <p className="subtle">Cambia la tecnología de trabajo para ver el cliente en otro lenguaje. El borrador incluye el código y la respuesta esperada. Sustituye el servicio ficticio por el tuyo al adaptar el ejemplo.</p>
                     <HelpText>{soap ? soapExample : 'GET /posts/1\nAccept: application/json'}</HelpText>
                 </> : <>

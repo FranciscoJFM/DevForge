@@ -35,6 +35,11 @@ export default function Academy() {
                 </div>
             </section>
             <Link href="/videoblog" className="btn-secondary mt-6">Ver videoblog</Link>
+            <section className="panel mt-8 p-6">
+                <h2 className="section-title">Tutorial destacado</h2>
+                <p className="subtle mt-3">Aprende a distinguir un error HTTP de un timeout o un JSON inválido con código y pruebas descargables.</p>
+                <Link href="/academia/rest-confiable" className="btn-primary mt-4">Consumir una API REST de forma confiable</Link>
+            </section>
             <section className="mt-10" aria-labelledby="planned-guides">
                 <h2 id="planned-guides" className="section-title mb-6">Guías planificadas</h2>
                 <div className="grid-cards">

@@ -21,6 +21,7 @@ export default function IntegrationLabPage() {
                 <li>Consulta SR-100, actualiza su actividad con PATCH y revisa que GET conserve el cambio. Simula 401 y 429 para practicar la renovación de credenciales y el uso de Retry-After.</li>
             </ul>
             <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/academia/rest-confiable" className="btn-primary">Seguir el tutorial REST con pruebas</Link>
                 <Link href="/api-studio" className="btn-secondary">Diseñar otra solicitud en API Studio</Link>
                 <Link href="/debug" className="btn-secondary">Diagnosticar errores</Link>
             </div>

@@ -7,6 +7,12 @@ import { posts, products } from '@/lib/data';
 import { studyTracks } from '@/lib/studyTracks';
 
 const resources = [
+    ['Document Studio', '/documentos', 'Word DOCX PDF Excel XLSX plantilla memoria funcional contrato documentación'],
+    ['Matriz QA/UAT', '/documentos?plantilla=qa', 'pruebas API Excel evidencia casos defecto'],
+    ['Plan de liberación Salesforce', '/documentos?plantilla=liberacion&plataforma=salesforce', 'despliegue Flow verificación reversión'],
+    ['QuickFix', '/debug#quickfix', 'SOQL CORS git conflictos diagnóstico'],
+    ['Tutorial REST confiable', '/academia/rest-confiable', 'Node.js HTTP pruebas timeout JSON validación API errores casos'],
+    ['Memoria técnica', '/herramientas#documentacion', 'plantilla arquitectura contratos seguridad observabilidad Markdown'],
     ['Retos basados en tickets', '/retos', 'diagnóstico error formulario SOQL Android solución pruebas'],
     ['Expediente de proyecto', '/expediente', 'exportar evidencia Markdown HTML capturas requisitos decisiones pruebas portafolio'],
     ['Inglés para desarrolladores', '/ingles', 'English inglés técnico entrevista CV resume correo conversación Salesforce Android React'],

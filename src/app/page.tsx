@@ -1,13 +1,20 @@
 import Link from 'next/link';
-import { BookOpen, Braces, FileCode2, GitPullRequest, HeartHandshake, ShieldCheck, Terminal, Workflow } from 'lucide-react';
+import { BookOpen, Braces, BriefcaseBusiness, FileCode2, GitPullRequest, HeartHandshake, ShieldCheck, Terminal, Workflow } from 'lucide-react';
 import HeroWorkbench from '@/components/HeroWorkbench';
 
 const quickLinks = [
+    { name: 'Crear un documento', detail: 'Word, PDF, Excel y Markdown', href: '/documentos', icon: FileCode2 },
     { name: 'Cliente HTTP', detail: 'Envía peticiones reales y lee respuestas', href: '/cliente-http', icon: Braces },
     { name: 'Integration Lab', detail: 'Practica REST, SOAP y OpenAPI', href: '/integration-lab', icon: Workflow },
     { name: 'Playground', detail: 'Escribe y prueba JavaScript', href: '/playground', icon: Terminal },
-    { name: 'Documentación', detail: 'Genera Markdown y diagramas', href: '/herramientas#documentacion', icon: FileCode2 },
-    { name: 'Revisión de código', detail: 'Aplica Clean Code y SOLID', href: '/revision-codigo', icon: GitPullRequest },
+    { name: 'Preparar una entrega', detail: 'Lista de liberación y reversión', href: '/documentos?plantilla=liberacion', icon: GitPullRequest },
+    { name: 'Resolver un error', detail: 'Diagnóstico y soluciones QuickFix', href: '/debug#quickfix', icon: GitPullRequest },
+];
+
+const entryPaths = [
+    { name: 'Aprende', detail: 'Rutas y proyectos guiados', href: '/academia', icon: BookOpen },
+    { name: 'Practica', detail: 'Laboratorios, código y diagnósticos', href: '/herramientas', icon: Terminal },
+    { name: 'Crece', detail: 'Inglés, carrera y trabajo sostenible', href: '/empleo', icon: BriefcaseBusiness },
 ];
 
 const routes = [
@@ -22,12 +29,17 @@ export default function Home() {
             <div className="containerx home-hero-inner">
                 <div>
                     <p className="hero-topic">Salesforce <span>·</span> Android <span>·</span> Web</p>
-                    <h1>Del primer ejercicio <span>al código que entregas.</span></h1>
-                    <p className="hero-description">Aprende un stack, prueba una integración y documenta lo que construyes. Todo desde un mismo espacio de trabajo.</p>
+                    <h1>Aprende. Construye. <span>Resuelve.</span></h1>
+                    <p className="hero-description">Practica con problemas reales de desarrollo, comprueba tus soluciones y crece profesionalmente sin descuidar tu bienestar.</p>
                     <div className="hero-actions">
-                        <Link className="btn-primary" href="/herramientas"><Braces size={19} aria-hidden="true" /> Abrir herramientas</Link>
-                        <Link className="btn-secondary" href="/academia"><BookOpen size={18} aria-hidden="true" /> Ver rutas de estudio</Link>
+                        <Link className="btn-primary" href="/herramientas"><Braces size={19} aria-hidden="true" /> Explorar herramientas</Link>
+                        <Link className="btn-secondary" href="/academia"><BookOpen size={18} aria-hidden="true" /> Comenzar a aprender</Link>
                     </div>
+                    <nav aria-label="Cómo empezar" className="entry-paths">
+                        {entryPaths.map(({ name, detail, href, icon: Icon }) => <Link href={href} key={name}>
+                            <Icon size={19} aria-hidden="true" /><strong>{name}</strong><span>{detail}</span>
+                        </Link>)}
+                    </nav>
                 </div>
                 <HeroWorkbench />
             </div>
