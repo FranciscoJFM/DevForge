@@ -1,14 +1,16 @@
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 export type Scenario = 'normal' | 'unauthorized' | 'rate-limited' | 'unavailable';
 export type RecordData = { id: number; title: string; description: string };
-export type ServiceRequest = { id: string; status: string; activity: string };
+export type InventoryItem = { sku: string; availability: string; note: string };
 export type LabResponse = { status: number; body?: unknown; headers?: Record<string, string>; xml?: boolean };
 
 export const initialRecords: RecordData[] = [
     { id: 1, title: 'Primera publicación', description: 'Registro ficticio de DevForge' },
     { id: 2, title: 'Segunda publicación', description: 'Otro registro de práctica' },
 ];
-export const initialRequest: ServiceRequest = { id: 'SR-100', status: 'Abierta', activity: 'Solicitud recibida' };
+export const inventoryPath = '/inventory/{sku}';
+const inventoryFields = ['availability', 'note'];
+export const initialInventoryItem: InventoryItem = { sku: 'SKU-100', availability: 'Disponible', note: 'Taza de cerámica de ejemplo' };
 export const soapNamespace = 'http://schemas.xmlsoap.org/soap/envelope/';
 const calcNamespace = 'urn:devforge:calculator';
 export const soapExample = '<soap:Envelope xmlns:soap="' + soapNamespace + '">\n  <soap:Body>\n    <Add xmlns="' + calcNamespace + '">\n      <a>15</a>\n      <b>25</b>\n    </Add>\n  </soap:Body>\n</soap:Envelope>';
@@ -20,8 +22,8 @@ export const operations: { method: Method; path: string; title: string; status: 
     { method: 'PUT', path: '/posts/{id}', title: 'Reemplazar una publicación', status: 200, body: '{"title":"Título nuevo","description":"Descripción completa"}' },
     { method: 'PATCH', path: '/posts/{id}', title: 'Actualizar parte de una publicación', status: 200, body: '{"title":"Título actualizado"}' },
     { method: 'DELETE', path: '/posts/{id}', title: 'Eliminar una publicación', status: 204 },
-    { method: 'GET', path: '/service-requests/{srId}', title: 'Consultar solicitud de servicio ficticia', status: 200 },
-    { method: 'PATCH', path: '/service-requests/{srId}', title: 'Actualizar actividad de la solicitud', status: 200, body: '{"status":"En progreso","activity":"Salesforce confirmó la recepción"}' },
+    { method: 'GET', path: inventoryPath, title: 'Consultar un producto del inventario', status: 200 },
+    { method: 'PATCH', path: inventoryPath, title: 'Actualizar disponibilidad del producto', status: 200, body: '{"availability":"Agotado","note":"Pendiente de reposición"}' },
 ];
 
 export const statusLabel: Record<number, string> = {
@@ -55,17 +57,17 @@ function validFields(data: Record<string, unknown> | undefined, keys: string[], 
         && provided.every(key => keys.includes(key) && typeof data[key] === 'string' && (data[key] as string).trim().length > 0);
 }
 
-export function simulateRest(operation: typeof operations[number], id: string, raw: string, records: RecordData[], nextId: number, request: ServiceRequest) {
-    const result = (response: LabResponse, nextRecords = records, nextRequest = request) => ({ response, records: nextRecords, request: nextRequest });
+export function simulateRest(operation: typeof operations[number], id: string, raw: string, records: RecordData[], nextId: number, inventoryItem: InventoryItem) {
+    const result = (response: LabResponse, nextRecords = records, nextInventoryItem = inventoryItem) => ({ response, records: nextRecords, inventoryItem: nextInventoryItem });
     const bad = () => result({ status: 400, body: { error: 'Envía un objeto JSON con los campos esperados como texto no vacío.' } });
     const missing = () => result({ status: 404, body: { error: 'No existe un registro con ese identificador.' } });
-    if (operation.path.startsWith('/service-requests')) {
-        if (request.id !== id) return missing();
-        if (operation.method === 'GET') return result({ status: 200, body: request });
+    if (operation.path === inventoryPath) {
+        if (inventoryItem.sku !== id) return missing();
+        if (operation.method === 'GET') return result({ status: 200, body: inventoryItem });
         const data = parseBody(raw);
-        if (!validFields(data, ['status', 'activity'], false)) return bad();
-        const nextRequest = { ...request, ...data };
-        return result({ status: 200, body: nextRequest }, records, nextRequest);
+        if (!validFields(data, inventoryFields, false)) return bad();
+        const nextInventoryItem = { ...inventoryItem, ...data };
+        return result({ status: 200, body: nextInventoryItem }, records, nextInventoryItem);
     }
     if (operation.method === 'GET' && operation.path === '/posts') return result({ status: 200, body: records });
     if (operation.method === 'POST') {
@@ -111,11 +113,12 @@ export function simulateSoap(raw: string): LabResponse {
 export function openApiContract() {
     const paths: Record<string, Record<string, unknown>> = {};
     for (const operation of operations) {
-        const enterprise = operation.path.startsWith('/service-requests');
-        const keys = enterprise ? ['status', 'activity'] : ['title', 'description'];
+        const inventory = operation.path === inventoryPath;
+        const keys = inventory ? inventoryFields : ['title', 'description'];
+        const identifier = inventory ? 'sku' : 'id';
         const properties = Object.fromEntries(keys.map(key => [key, { type: 'string', minLength: 1 }]));
-        const resourceSchema = { type: 'object', properties: { id: { type: enterprise ? 'string' : 'integer' }, ...properties }, required: ['id', ...keys] };
-        const parameter = operation.path.includes('{srId}') ? { name: 'srId', schema: { type: 'string', example: 'SR-100' } }
+        const resourceSchema = { type: 'object', properties: { [identifier]: { type: inventory ? 'string' : 'integer' }, ...properties }, required: [identifier, ...keys] };
+        const parameter = inventory ? { name: 'sku', schema: { type: 'string', example: initialInventoryItem.sku } }
             : operation.path.includes('{id}') ? { name: 'id', schema: { type: 'integer', minimum: 1, example: 1 } } : undefined;
         const successSchema = operation.method === 'GET' && operation.path === '/posts' ? { type: 'array', items: resourceSchema } : resourceSchema;
         const responses: Record<string, unknown> = {

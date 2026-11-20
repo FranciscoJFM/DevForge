@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { downloadText } from '@/lib/localDownload';
-import { initialRecords, initialRequest, openApiContract, operations, simulateFailure, simulateRest, simulateSoap, soapExample, statusLabel, type LabResponse, type Scenario } from '@/lib/integrationLab';
+import { initialRecords, initialInventoryItem, inventoryPath, openApiContract, operations, simulateFailure, simulateRest, simulateSoap, soapExample, statusLabel, type LabResponse, type Scenario } from '@/lib/integrationLab';
 import { clientCode } from '@/lib/integrationClient';
 import TextResult from './TextResult';
 
@@ -27,7 +27,7 @@ export default function IntegrationLab() {
     const [soapXml, setSoapXml] = useState(soapExample);
     const [scenario, setScenario] = useState<Scenario>('normal');
     const [records, setRecords] = useState(initialRecords);
-    const [request, setRequest] = useState(initialRequest);
+    const [inventoryItem, setInventoryItem] = useState(initialInventoryItem);
     const [nextId, setNextId] = useState(3);
     const [result, setResult] = useState<{ response: LabResponse; elapsed: number }>();
     const [format, setFormat] = useState('fetch');
@@ -40,7 +40,7 @@ export default function IntegrationLab() {
     function selectOperation(next: number) {
         const item = operations[next];
         setIndex(next);
-        setId(item.path.includes('{srId}') ? 'SR-100' : '1');
+        setId(item.path === inventoryPath ? initialInventoryItem.sku : '1');
         setDraft(item.body ?? '');
         setResult(undefined);
     }
@@ -76,15 +76,15 @@ export default function IntegrationLab() {
                         if (soap || failure) {
                             response = failure ?? simulateSoap(soapXml);
                         } else {
-                            const next = simulateRest(operation, id.trim(), draft, records, nextId, request);
+                            const next = simulateRest(operation, id.trim(), draft, records, nextId, inventoryItem);
                             response = next.response;
                             setRecords(next.records);
-                            setRequest(next.request);
+                            setInventoryItem(next.inventoryItem);
                             if (response.status === 201) setNextId(nextId + 1);
                         }
                         setResult({ response, elapsed: performance.now() - start });
                     }}>
-                        {!soap && operation.path.includes('{') && <label className="block">Identificador<input className="field mt-2" required value={id} maxLength={40} onChange={event => { setId(event.target.value); setResult(undefined); }} /></label>}
+                        {!soap && operation.path.includes('{') && <label className="block">{operation.path === inventoryPath ? 'SKU del producto' : 'Identificador'}<input className="field mt-2" required value={id} maxLength={40} onChange={event => { setId(event.target.value); setResult(undefined); }} /></label>}
                         {!soap && <label className="block">Escenario de respuesta<select className="field mt-2" value={scenario} onChange={event => { setScenario(event.target.value as Scenario); setResult(undefined); }}>
                             {scenarios.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}
                         </select></label>}
@@ -98,7 +98,7 @@ export default function IntegrationLab() {
                             <button type="submit" className="btn-primary">Simular petición</button>
                             <button type="button" className="btn-secondary" onClick={() => {
                                 setRecords(initialRecords);
-                                setRequest(initialRequest);
+                                setInventoryItem(initialInventoryItem);
                                 setNextId(3);
                                 setScenario('normal');
                                 setSoapXml(soapExample);

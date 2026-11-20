@@ -24,7 +24,7 @@ const resources = [
     ['Git y repositorios', '/git', 'comandos commit pull request diff switch ramas GitHub repositorios'],
     ['CV, postulaciones e ingresos entre empleos', '/guia-empleo', 'correo CV empleo ventas garaje Uber emprendimiento'],
     ['Foro moderado de Empatía Jobs', '/foro', 'relato experiencia laboral sin nombre moderación dudas técnicas'],
-    ['Integration Lab REST y SOAP', '/integration-lab', 'OpenAPI Swagger CRUD GET POST PUT PATCH DELETE SOAP Fault Salesforce Siebel'],
+    ['Integration Lab REST y SOAP', '/integration-lab', 'OpenAPI Swagger CRUD GET POST PUT PATCH DELETE SOAP Fault catálogo inventario SKU'],
     ['Ejemplos y generadores de código', '/ejemplos', 'Apex Kotlin Java Swift Python Ruby TypeScript constructor método formulario REST SOAP wrapper Flow Queueable WorkManager job'],
     ['API Studio', '/api-studio', 'cURL fetch REST SOAP XML solicitud documentación'],
     ['Portfolio DevForge', '/portafolio', 'portafolio GitHub CV HTML Markdown'],

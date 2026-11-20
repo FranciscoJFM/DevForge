@@ -141,7 +141,7 @@ const recipes = [
         "file": "SolicitudDto.cls",
         "tip": "Usa un DTO para separar el contrato de integración del modelo de tu org. Este ejemplo serializa una solicitud. En la entrada, valida los campos después de deserializar.",
         "symbol": "SolicitudDto",
-        "code": "public class SolicitudDto {\n    public String id;\n    public String estado;\n\n    public SolicitudDto(String id, String estado) {\n        this.id = id;\n        this.estado = estado;\n    }\n\n    public String toJson() {\n        return JSON.serialize(this);\n    }\n}\n\n// En Apex anónimo:\n// System.debug(new SolicitudDto('SR-100', 'Abierta').toJson());"
+        "code": "public class SolicitudDto {\n    public String id;\n    public String estado;\n\n    public SolicitudDto(String id, String estado) {\n        this.id = id;\n        this.estado = estado;\n    }\n\n    public String toJson() {\n        return JSON.serialize(this);\n    }\n}\n\n// En Apex anónimo:\n// System.debug(new SolicitudDto('REF-100', 'Abierta').toJson());"
     },
     {
         "id": "apex-flow",

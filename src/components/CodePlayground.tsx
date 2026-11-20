@@ -6,8 +6,8 @@ import { downloadText } from '@/lib/localDownload';
 const exercises = [
     { name: 'Editor libre', description: 'Escribe JavaScript y usa console.log para ver el resultado.', code: 'const tasks = ["documentar", "probar", "liberar"];\nconsole.log(tasks.join(" → "));', cases: [] },
     { name: 'Inicial · Normalizar una referencia', description: 'Escribe solve(text). Quita espacios al inicio y al final, y devuelve el texto en mayúsculas.', code: 'function solve(text) {\n    return text;\n}', cases: [
-        { label: 'Quita espacios externos', args: ['  SR-100  '], expected: 'SR-100' },
-        { label: 'Convierte a mayúsculas', args: ['sr-200'], expected: 'SR-200' },
+        { label: 'Quita espacios externos', args: ['  REF-100  '], expected: 'REF-100' },
+        { label: 'Convierte a mayúsculas', args: ['ref-200'], expected: 'REF-200' },
         { label: 'Acepta texto vacío', args: [''], expected: '' },
     ] },
     { name: 'Intermedio · Total de un pedido', description: 'Escribe solve(items). Devuelve la suma de cantidad × precioEnCentavos. Una lista vacía devuelve cero.', code: 'function solve(items) {\n    return 0;\n}', cases: [
