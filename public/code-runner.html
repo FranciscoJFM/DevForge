@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' blob:; worker-src blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Ejecutor local de DevForge</title>
+<script>
+'use strict';
+const workerSource = `
+self.onmessage = async ({ data }) => {
+    const reply = self.postMessage.bind(self);
+    const output = [];
+    const print = (...values) => {
+        if (output.length >= 30) return;
+        output.push(values.map(value => {
+            try { return (typeof value === 'string' ? value : JSON.stringify(value) ?? String(value)).slice(0, 300); }
+            catch { return '[valor no serializable]'; }
+        }).join(' ').slice(0, 500));
+    };
+    const console = { log: print, info: print, warn: print, error: print };
+    try {
+        if (data.cases.length) {
+            const solve = new Function('console', '"use strict";\\n' + data.code + '\\nreturn typeof solve === "function" ? solve : null;')(console);
+            if (!solve) throw Error('Define una función llamada solve.');
+            const results = [];
+            for (const test of data.cases) {
+                const result = await solve(...test.args);
+                results.push({ label: test.label, pass: Object.is(result, test.expected) });
+            }
+            reply({ token: data.token, output, results });
+        } else {
+            const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+            await new AsyncFunction('console', '"use strict";\\n' + data.code)(console);
+            reply({ token: data.token, output, results: [] });
+        }
+    } catch (error) {
+        reply({ token: data.token, output, results: [], error: String(error?.message ?? error).slice(0, 500) });
+    }
+};
+`;
+let stopCurrent;
+addEventListener('message', event => {
+    if (event.source !== parent) return;
+    if (event.data?.type === 'devforge-ping') {
+        parent.postMessage({ type: 'devforge-ready' }, '*');
+        return;
+    }
+    if (event.data?.type !== 'devforge-run') return;
+    const { id, code, cases } = event.data;
+    if (typeof id !== 'string' || typeof code !== 'string' || code.length > 15000 || !Array.isArray(cases) || cases.length > 8) return;
+    stopCurrent?.();
+    const token = Array.from(crypto.getRandomValues(new Uint32Array(4))).join('-');
+    const url = URL.createObjectURL(new Blob([workerSource], { type: 'text/javascript' }));
+    const worker = new Worker(url);
+    const timeout = setTimeout(() => finish({ error: 'Se agotó el tiempo de ejecución. Revisa si tienes un bucle infinito.' }), 1500);
+    function close() {
+        clearTimeout(timeout);
+        worker.terminate();
+        URL.revokeObjectURL(url);
+    }
+    function finish(result) {
+        close();
+        stopCurrent = undefined;
+        parent.postMessage({ type: 'devforge-result', id, output: [], results: [], ...result }, '*');
+    }
+    stopCurrent = close;
+    worker.onmessage = ({ data }) => {
+        if (data?.token !== token) return;
+        const { output, results, error } = data;
+        finish({ output, results, error });
+    };
+    worker.onerror = () => finish({ error: 'El navegador no pudo ejecutar el fragmento.' });
+    worker.postMessage({ token, code, cases });
+});
+</script>
+</html>
