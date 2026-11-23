@@ -11,7 +11,7 @@ export default function ProjectsPage() {
         <main className="containerx py-16">
             <h1 className="text-4xl font-black">Proyectos de DevForge</h1>
             <p className="subtle mb-10 mt-4 max-w-2xl leading-7">
-                Explora qué problema aborda cada proyecto y abre las herramientas o fichas disponibles.
+                Proyectos operativos, demostraciones técnicas y trabajos en desarrollo. Cada enlace indica su estado real para que puedas distinguir una solución publicada de una prueba o plantilla.
             </p>
             <section aria-labelledby="project-list">
                 <h2 id="project-list" className="sr-only">Catálogo de proyectos</h2>
