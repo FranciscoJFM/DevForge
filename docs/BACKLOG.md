@@ -23,6 +23,7 @@
 | DF-017 | EP08 Autenticación | Como cliente quiero recuperar productos comprados | P2 | ⬜ | Sesiones seguras, autorización de acceso y recuperación de cuenta |
 | DF-018 | EP01 QA | Como propietario quiero pruebas y despliegue reproducible | P0 | ⬜ | npm run build/lint/typecheck y pruebas de flujo completadas en CI |
 | DF-019 | EP09 IA responsable | Como desarrollador quiero generar prompts verificables sin enviar datos | P1 | ✅ | El Prompt Builder permite elegir objetivo y tecnología, detecta datos sensibles básicos y copia el resultado localmente |
+| DF-020 | EP10 DevForge 3.0 | Como desarrollador quiero recorrer 20 capacidades técnicas y profesionales | P1 | ✅ | El hub muestra las 20 ideas, permite filtrarlas, introducir contexto y copiar un plan local |
 
 ## Definition of Done
 - Código tipado, accesible y responsive.

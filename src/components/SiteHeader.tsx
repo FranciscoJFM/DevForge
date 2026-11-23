@@ -11,7 +11,7 @@ import { useAuth } from '@/components/AuthProvider';
 const links = [
     { href: '/desarrollo', label: 'Desarrollo', related: ['/proyectos', '/trayectoria'] },
     { href: '/academia', label: 'Academia', related: ['/videoblog', '/ingles', '/retos'] },
-    { href: '/herramientas', label: 'Herramientas', related: ['/rescue-center', '/api-studio', '/integration-lab', '/debug', '/ejemplos', '/git', '/revision-codigo', '/playground', '/project-builder', '/cliente-http', '/ide', '/expediente', '/documentos'] },
+    { href: '/herramientas', label: 'Herramientas', related: ['/devforge-3', '/rescue-center', '/api-studio', '/integration-lab', '/debug', '/ejemplos', '/git', '/revision-codigo', '/playground', '/project-builder', '/cliente-http', '/ide', '/expediente', '/documentos'] },
     { href: '/apps', label: 'Microapps', related: [] },
     { href: '/empleo', label: 'Empleo', related: ['/analizar-vacante', '/guia-empleo', '/entrevistas', '/portafolio', '/foro', '/trabajo-sostenible'] },
     { href: '/seguridad', label: 'Seguridad e IA', related: ['/ia-responsable'] },

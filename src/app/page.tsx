@@ -12,6 +12,7 @@ const quickLinks = [
 ];
 
 const entryPaths = [
+    { name: 'Resuelve', detail: 'Diagnóstico guiado por problema', href: '/rescue-center', icon: ShieldCheck },
     { name: 'Aprende', detail: 'Rutas y proyectos guiados', href: '/academia', icon: BookOpen },
     { name: 'Practica', detail: 'Laboratorios, código y diagnósticos', href: '/herramientas', icon: Terminal },
     { name: 'Crece', detail: 'Inglés, carrera y trabajo sostenible', href: '/empleo', icon: BriefcaseBusiness },
