@@ -6,6 +6,7 @@ import { Code2, Menu } from 'lucide-react';
 import { useRef } from 'react';
 import ResourceSearch from '@/components/ResourceSearch';
 import ThemeToggle from '@/components/ThemeToggle';
+import { useAuth } from '@/components/AuthProvider';
 
 const links = [
     { href: '/desarrollo', label: 'Desarrollo', related: ['/proyectos', '/trayectoria'] },
@@ -18,6 +19,7 @@ const links = [
 
 export default function SiteHeader() {
     const pathname = usePathname();
+    const { user, configured, loading } = useAuth();
     const menu = useRef<HTMLDetailsElement>(null);
     const menuButton = useRef<HTMLElement>(null);
 
@@ -39,6 +41,9 @@ export default function SiteHeader() {
             <div className="header-actions">
                 <ResourceSearch />
                 <ThemeToggle />
+                {!loading && (configured ? <Link href="/cuenta" className="btn-secondary compact-control-label">
+                    {user ? (user.displayName?.trim() || 'Mi cuenta') : 'Acceder'}
+                </Link> : null)}
                 <details className="mobile-menu" ref={menu} onKeyDown={event => {
                     if (event.key === 'Escape' && menu.current?.open) {
                         menu.current.open = false;

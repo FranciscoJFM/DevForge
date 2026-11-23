@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import AuthProvider from '@/components/AuthProvider';
 
 export const metadata: Metadata = {
     title: { default: 'DevForge | Herramientas y rutas de desarrollo', template: '%s | DevForge' },
@@ -15,10 +16,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return <html lang="es" data-theme="dark" suppressHydrationWarning>
         <head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head>
         <body>
-            <a href="#contenido" className="skip-link">Saltar al contenido</a>
-            <SiteHeader />
-            <div id="contenido" tabIndex={-1}>{children}</div>
-            <SiteFooter />
+            <AuthProvider>
+                <a href="#contenido" className="skip-link">Saltar al contenido</a>
+                <SiteHeader />
+                <div id="contenido" tabIndex={-1}>{children}</div>
+                <SiteFooter />
+            </AuthProvider>
         </body>
     </html>;
 }

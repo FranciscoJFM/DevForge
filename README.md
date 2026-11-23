@@ -34,6 +34,26 @@ En `/documentos` puedes editar y previsualizar una memoria técnica, un diseño 
 
 ## Importante antes de publicar
 
+### Firebase Auth
+
+Copia `.env.example` como `.env.local` y configura las variables públicas de Firebase Web. Esta configuración identifica la aplicación pero no sustituye las reglas de seguridad ni App Check.
+
+En Firebase Console habilita Google y correo/contraseña en Authentication. Copia el dominio autorizado de Vercel o del dominio personalizado en Authentication > Settings > Authorized domains.
+
+Para usar el Emulador Suite:
+
+```bash
+npm run firebase:emulators
+```
+
+En `.env.local`, usa `NEXT_PUBLIC_USE_FIREBASE_EMULATORS=true` y ejecuta Next.js en otra terminal. Antes de desplegar las reglas:
+
+```bash
+npm run firebase:rules
+```
+
+La moderación de publicaciones y cualquier operación administrativa deben implementarse en el servidor con Firebase Admin; no concedas privilegios desde el cliente.
+
 ### Moderación del foro
 
 El foro usa el servidor de Next.js y guarda envíos en un directorio privado del sistema de archivos. Cuando Vercel establece `VERCEL=1`, el foro opera en modo informativo y la acción del servidor rechaza envíos hasta que se integre un backend persistente. En local se usa `.data/forum`. Para alojarlo, define `FORUM_DATA_DIR` con una ruta absoluta en un volumen privado y persistente accesible para el servidor y el moderador.
