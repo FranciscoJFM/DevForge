@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import DevForge3Hub from '@/components/DevForge3Hub';
+import DevForge3Lab from '@/components/DevForge3Lab';
 
 export const metadata: Metadata = {
     title: 'DevForge 3.0',
@@ -20,6 +21,7 @@ export default function DevForge3Page() {
                 <Link href="/herramientas" className="btn-secondary">Ver herramientas existentes</Link>
             </div>
             <DevForge3Hub />
+            <DevForge3Lab />
         </main>
     );
 }

@@ -191,6 +191,9 @@ input[type="checkbox"] { accent-color: var(--accent); }
 .devforge3-plan ol { display: grid; gap: .55rem; margin-block: 1.1rem; }
 .devforge3-plan li { display: grid; grid-template-columns: 2rem 1fr; align-items: center; gap: .65rem; }
 .devforge3-plan li span { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid #4f8069; border-radius: 50%; color: var(--accent); }
+.devforge3-lab-tabs { display: flex; flex-wrap: wrap; gap: .45rem; }
+.devforge3-lab-tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.devforge3-result { min-height: 18rem; }
 @media (min-width: 980px) {
     .devforge3-layout { grid-template-columns: 1.35fr minmax(18rem, .65fr); }
 }
