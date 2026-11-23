@@ -207,6 +207,9 @@ input[type="checkbox"] { accent-color: var(--accent); }
 .devforge3-lab-tabs { display: flex; flex-wrap: wrap; gap: .45rem; }
 .devforge3-lab-tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .devforge3-result { min-height: 18rem; }
+.wanchinchon-lesson-link { display: grid; width: 100%; grid-template-columns: 2rem 1fr; align-items: center; gap: .55rem; border-radius: .65rem; padding: .65rem; text-align: left; color: var(--muted); }
+.wanchinchon-lesson-link:hover, .wanchinchon-lesson-link[aria-current="step"] { background: var(--surface-raised); color: var(--accent); }
+.wanchinchon-lesson-link span { color: var(--accent); font-size: .78rem; font-weight: 800; }
 @media (min-width: 980px) {
     .devforge3-layout { grid-template-columns: 1.35fr minmax(18rem, .65fr); }
 }

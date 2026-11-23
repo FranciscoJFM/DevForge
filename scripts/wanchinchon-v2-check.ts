@@ -29,4 +29,17 @@ const result = runV2(parseV2(source));
 if (result.messages.join('|') !== 'Hola, soy Luna|16|Edad suficiente') {
     throw new Error(`Resultado inesperado: ${JSON.stringify(result.messages)}`);
 }
+
+const sumSource = `mundo Calculadora
+  hacer suma(a: numero, b: numero) -> numero
+    devuelve a + b
+  fin
+  fijo resultado: numero = suma(7, 5)
+  dice "Resultado: " + resultado
+fin`;
+const sumResult = runV2(parseV2(sumSource));
+if (sumResult.messages.join('|') !== 'Resultado: 12') {
+    throw new Error(`Suma inesperada: ${JSON.stringify(sumResult.messages)}`);
+}
 console.log(JSON.stringify(result.messages));
+console.log(JSON.stringify(sumResult.messages));

@@ -8,6 +8,9 @@ import { studyTracks } from '@/lib/studyTracks';
 
 const resources = [
     ['Wanchinchon Lang', '/wanchinchon', 'lenguaje educativos mundos seres vínculos sucesos reglas toalla Wanchinchon'],
+    ['Aprender Wanchinchon', '/wanchinchon/aprender', 'curso lecciones variables funciones constructores sucesos'],
+    ['Documentación Wanchinchon', '/wanchinchon/docs', 'sintaxis tipos operadores condiciones variables funciones seres sucesos'],
+    ['Playground Wanchinchon', '/wanchinchon/playground', 'editor ejecutar consola guardar exportar .wan explicar código'],
     ['DevForge 3.0', '/devforge-3', '20 herramientas técnicas profesionales Rescue Center diagnóstico pruebas arquitectura'],
     ['Rescue Center', '/rescue-center', 'resolver error despliegue carga laboral tecnología IA'],
     ['Document Studio', '/documentos', 'Word DOCX PDF Excel XLSX plantilla memoria funcional contrato documentación'],

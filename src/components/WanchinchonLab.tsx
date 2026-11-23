@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { run, WanError } from '@/lib/wanchinchon';
 import { parseV2, runV2, WanV2Error } from '@/lib/wanchinchon-v2';
+import { explainWanchinchonTrace } from '@/lib/wanchinchonExplain';
 
 const examples = {
     familia02: `mundo Familia
@@ -76,14 +77,19 @@ export default function WanchinchonLab() {
     const [example, setExample] = useState<'familia02' | 'casa' | 'invernadero'>('familia02');
     const [output, setOutput] = useState<ReturnType<typeof run> | null>(null);
     const [error, setError] = useState('');
+    const [explanation, setExplanation] = useState<string[]>([]);
+    const [saved, setSaved] = useState(false);
+    const [projectName, setProjectName] = useState('mi-mundo');
 
     function execute() {
         setError('');
+        setExplanation([]);
         try {
             const isV2 = /\b(chon|fijo|hacer|nace|crea|repite|sino)\b/.test(source);
             if (isV2) {
                 const ast = parseV2(source);
                 const result = runV2(ast);
+                setExplanation(explainWanchinchonTrace(result.trace));
                 setOutput({
                     ast: { entities: Object.entries(ast.entities).map(([name, entity]) => ({ name, traits: Object.fromEntries(Object.entries(entity.traits).map(([trait, details]) => [trait, details.expression ?? null])), line: 1 })) },
                     result: {
@@ -97,7 +103,9 @@ export default function WanchinchonLab() {
                     },
                 } as unknown as ReturnType<typeof run>);
             } else {
-                setOutput(run(source, { maxEvents: 1000, maxActions: 10000 }));
+                const current = run(source, { maxEvents: 1000, maxActions: 10000 });
+                setOutput(current);
+                setExplanation(explainWanchinchonTrace(current.result.trace));
             }
         } catch (nextError) {
             setOutput(null);
@@ -110,6 +118,37 @@ export default function WanchinchonLab() {
         setSource(examples[next]);
         setOutput(null);
         setError('');
+        setExplanation([]);
+        setSaved(false);
+    }
+
+    function saveProject() {
+        try {
+            localStorage.setItem('devforge-wanchinchon-project', source);
+            setSaved(true);
+            window.setTimeout(() => setSaved(false), 1800);
+        } catch {
+            setSaved(false);
+        }
+    }
+
+    function restoreProject() {
+        try {
+            const stored = localStorage.getItem('devforge-wanchinchon-project');
+            if (stored) setSource(stored);
+        } catch {
+            setError('No fue posible restaurar el proyecto local.');
+        }
+    }
+
+    function exportProject() {
+        const blob = new Blob([source], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `${projectName.trim().replace(/[^\\p{L}\\p{N}_-]+/gu, '-') || 'mi-mundo'}.wan`;
+        anchor.click();
+        URL.revokeObjectURL(url);
     }
 
     const graph = useMemo(() => output?.ast.entities ?? [], [output]);
@@ -124,12 +163,19 @@ export default function WanchinchonLab() {
             <div className="mt-5 grid gap-4 lg:grid-cols-2">
                 <div>
                     <label className="block"><span className="mb-2 block font-bold">Ejemplo</span><select className="field" value={example} onChange={event => changeExample(event.target.value as 'familia02' | 'casa' | 'invernadero')}><option value="familia02">Familia 0.2</option><option value="casa">Casa 0.1</option><option value="invernadero">Invernadero 0.1</option></select></label>
+                    <label className="mt-4 block"><span className="mb-2 block font-bold">Nombre del archivo</span><input className="field" value={projectName} maxLength={60} onChange={event => setProjectName(event.target.value)} /></label>
                     <label className="mt-4 block"><span className="mb-2 block font-bold">Programa .wan</span><textarea className="field min-h-[28rem] font-mono text-sm" value={source} spellCheck={false} onChange={event => setSource(event.target.value)} /></label>
-                    <button type="button" className="btn-primary mt-4" onClick={execute}>Ejecutar mundo</button>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                        <button type="button" className="btn-primary" onClick={execute}>Ejecutar mundo</button>
+                        <button type="button" className="btn-secondary" onClick={saveProject}>{saved ? 'Guardado' : 'Guardar local'}</button>
+                        <button type="button" className="btn-secondary" onClick={restoreProject}>Restaurar</button>
+                        <button type="button" className="btn-secondary" onClick={exportProject}>Exportar .wan</button>
+                    </div>
                 </div>
                 <div>
                     {error && <p className="rounded-lg border border-[color:var(--danger)] p-4 text-[color:var(--danger)]" role="alert">{error}</p>}
                     {output && <>
+                        {explanation.length > 0 && <section className="mb-5"><h3 className="font-bold">Explica mi código</h3><ol className="mt-2 space-y-2">{explanation.map((item, index) => <li key={item} className="rounded-lg border border-[color:var(--line)] p-3 text-sm"><strong>{index + 1}.</strong> {item}</li>)}</ol></section>}
                         <h3 className="font-bold">Grafo de seres</h3>
                         <div className="mt-3 grid grid-cols-2 gap-3" aria-label="Grafo de seres y vínculos">
                             {graph.map(entity => (
