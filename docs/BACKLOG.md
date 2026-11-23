@@ -22,6 +22,7 @@
 | DF-016 | EP08 Pagos | Como cliente quiero pagar por una app de forma segura | P2 | ⬜ | Backend, pago validado por webhook, recibo y licencia entregada |
 | DF-017 | EP08 Autenticación | Como cliente quiero recuperar productos comprados | P2 | ⬜ | Sesiones seguras, autorización de acceso y recuperación de cuenta |
 | DF-018 | EP01 QA | Como propietario quiero pruebas y despliegue reproducible | P0 | ⬜ | npm run build/lint/typecheck y pruebas de flujo completadas en CI |
+| DF-019 | EP09 IA responsable | Como desarrollador quiero generar prompts verificables sin enviar datos | P1 | ✅ | El Prompt Builder permite elegir objetivo y tecnología, detecta datos sensibles básicos y copia el resultado localmente |
 
 ## Definition of Done
 - Código tipado, accesible y responsive.

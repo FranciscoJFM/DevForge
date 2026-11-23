@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import ReviewChecklist from '@/components/ReviewChecklist';
+import PromptBuilder from '@/components/PromptBuilder';
 
 export const metadata: Metadata = { title: 'IA responsable en el IDE' };
 
@@ -30,6 +31,7 @@ export default function ResponsibleAiPage() {
             <p className="subtle mt-5 max-w-3xl text-lg leading-8">
                 Decide qué contexto compartes, qué permisos das y cómo vas a verificar el trabajo generado.
             </p>
+            <PromptBuilder />
             <div className="mt-10 grid gap-5 md:grid-cols-2">
                 {steps.map(({ title, description }) => (
                     <section key={title} className="panel p-6">
