@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import WorkSituationAssistant from '@/components/WorkSituationAssistant';
 
 export const metadata: Metadata = { title: 'Trabajo sostenible para desarrolladores' };
 
@@ -10,6 +11,9 @@ export default function SustainableWorkPage() {
             <p className="subtle mt-5 max-w-3xl text-lg leading-8">
                 Recursos para negociar el alcance, pedir apoyo ante un trato injusto y proteger el tiempo de descanso y de familia.
             </p>
+            <div className="mt-8">
+                <WorkSituationAssistant />
+            </div>
             <div className="mt-8 grid gap-5 md:grid-cols-2">
                 <section className="panel p-6">
                     <h2 className="text-xl font-bold">Negocia qué cabe en la fecha</h2>

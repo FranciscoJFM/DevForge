@@ -15,6 +15,7 @@ const entryPaths = [
     { name: 'Aprende', detail: 'Rutas y proyectos guiados', href: '/academia', icon: BookOpen },
     { name: 'Practica', detail: 'Laboratorios, código y diagnósticos', href: '/herramientas', icon: Terminal },
     { name: 'Crece', detail: 'Inglés, carrera y trabajo sostenible', href: '/empleo', icon: BriefcaseBusiness },
+    { name: 'Protégete', detail: 'Límites, acuerdos y canales de apoyo', href: '/trabajo-sostenible', icon: ShieldCheck },
 ];
 
 const routes = [
