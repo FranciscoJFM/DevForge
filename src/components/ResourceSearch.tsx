@@ -7,6 +7,7 @@ import { posts, products } from '@/lib/data';
 import { studyTracks } from '@/lib/studyTracks';
 
 const resources = [
+    ['Wanchinchon Lang', '/wanchinchon', 'lenguaje educativos mundos seres vínculos sucesos reglas toalla Wanchinchon'],
     ['DevForge 3.0', '/devforge-3', '20 herramientas técnicas profesionales Rescue Center diagnóstico pruebas arquitectura'],
     ['Rescue Center', '/rescue-center', 'resolver error despliegue carga laboral tecnología IA'],
     ['Document Studio', '/documentos', 'Word DOCX PDF Excel XLSX plantilla memoria funcional contrato documentación'],

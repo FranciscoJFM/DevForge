@@ -75,6 +75,16 @@ Revisa hechos, posibles identificadores y datos sensibles antes de usar `approve
 - Revisar accesibilidad, pruebas e2e, rendimiento, dependencias, encabezados y CSP.
 - El sitio se marca `noindex` hasta tener contenido terminado.
 
+## Wanchinchon Lang
+
+En `/wanchinchon` puedes escribir mundos, seres, vínculos y sucesos con el interpretador v0.1 integrado al navegador.
+
+- La única palabra aportada por el niño de referencia es `wanchonchin`, usada como `toalla`.
+- Las demás palabras técnicas son propuestas provisionales.
+- La ejecución limita sucesos y acciones.
+- No ejecuta JavaScript arbitrario ni comparte el programa con el servidor.
+- El grafo es una vista del AST; no admite edición bidireccional.
+
 ## Organización
 - `src/app/` rutas y páginas
 - `src/components/` componentes compartidos
