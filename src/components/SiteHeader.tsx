@@ -41,6 +41,9 @@ export default function SiteHeader() {
             <div className="header-actions">
                 <ResourceSearch />
                 <ThemeToggle />
+                <Link href="/devforge-3" className="btn-primary devforge3-header-link">
+                    DevForge 3.0
+                </Link>
                 {!loading && (configured ? <Link href="/cuenta" className="btn-secondary compact-control-label">
                     {user ? (user.displayName?.trim() || 'Mi cuenta') : 'Acceder'}
                 </Link> : null)}
@@ -51,7 +54,11 @@ export default function SiteHeader() {
                     }
                 }}>
                     <summary ref={menuButton} aria-label="Menú" className="btn-secondary text-sm"><Menu size={17} aria-hidden="true" /> <span className="compact-control-label">Menú</span></summary>
-                    <nav aria-label="Menú móvil">{navigation(true)}</nav>
+                    <nav aria-label="Menú móvil">
+                        {navigation(true)}
+                        <Link className="site-nav-link" href="/rescue-center" data-active={pathname === '/rescue-center'} onClick={() => { if (menu.current) menu.current.open = false; }}>Rescue Center</Link>
+                        <Link className="site-nav-link" href="/devforge-3" data-active={pathname === '/devforge-3'} onClick={() => { if (menu.current) menu.current.open = false; }}>DevForge 3.0</Link>
+                    </nav>
                 </details>
             </div>
         </div>

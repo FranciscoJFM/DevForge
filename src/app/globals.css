@@ -104,6 +104,7 @@ input[type="checkbox"] { accent-color: var(--accent); }
 .site-nav-link:hover, .site-nav-link[data-active="true"] { background: #182a23; color: var(--accent); }
 .header-actions { display: flex; gap: .4rem; align-items: center; }
 .header-actions .btn-secondary { padding-inline: .7rem; }
+.devforge3-header-link { min-height: 44px; white-space: nowrap; }
 .search-shortcut { color: var(--muted); border: 1px solid var(--line); border-radius: .25rem; padding-inline: .25rem; font-size: .68rem; }
 .mobile-menu summary { list-style: none; }
 .mobile-menu summary::-webkit-details-marker { display: none; }
@@ -119,6 +120,9 @@ input[type="checkbox"] { accent-color: var(--accent); }
 @media (max-width: 390px) {
     .header-actions .btn-secondary { padding-inline: .55rem; }
     .brand-wordmark { gap: .35rem; font-size: 1.15rem; }
+}
+@media (max-width: 760px) {
+    .devforge3-header-link { display: none; }
 }
 
 .home-hero {
