@@ -84,6 +84,12 @@ En `/wanchinchon` puedes escribir mundos, seres, vínculos y sucesos con el inte
 - La ejecución limita sucesos y acciones.
 - No ejecuta JavaScript arbitrario ni comparte el programa con el servidor.
 - El grafo es una vista del AST; no admite edición bidireccional.
+## Wanchinchon 0.2
+
+- El laboratorio detecta programas con sintaxis 0.2 y ejecuta variables `chon`, constantes `fijo`, funciones `hacer`, constructores `nace`, métodos, expresiones y bloques `si/sino/repite`.
+- El modo 0.1 continúa disponible con mundos, seres, vínculos y sucesos.
+- La ejecución ocurre en el navegador sin `eval`, módulos ni comunicación externa.
+- La compilación a JavaScript, análisis estático completo, módulos, tipos genéricos y compilación nativa no están implementados en DevForge.
 
 ## Organización
 - `src/app/` rutas y páginas

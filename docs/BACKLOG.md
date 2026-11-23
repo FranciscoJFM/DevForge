@@ -25,6 +25,7 @@
 | DF-019 | EP09 IA responsable | Como desarrollador quiero generar prompts verificables sin enviar datos | P1 | ✅ | El Prompt Builder permite elegir objetivo y tecnología, detecta datos sensibles básicos y copia el resultado localmente |
 | DF-020 | EP10 DevForge 3.0 | Como desarrollador quiero recorrer 20 capacidades técnicas y profesionales | P1 | ✅ | El hub muestra las 20 ideas, permite filtrarlas, introducir contexto y copiar un plan local |
 | DF-021 | EP11 Lenguajes imaginados | Como educador quiero ejecutar mundos Wanchinchon sin dependencias ni servidor | P1 | ✅ | `/wanchinchon` carga ejemplos, valida el programa, limita sucesos y acciones y muestra estado y trazabilidad |
+| DF-022 | EP11 Wanchinchon 0.2 | Como desarrollador quiero usar variables, funciones, entidades y control de flujo | P1 | 🟡 | El laboratorio ejecuta un subconjunto 0.2 con variables, constructores, métodos y expresiones; faltan módulos, análisis completo, compilación optimizada y Studio independiente |
 
 ## Definition of Done
 - Código tipado, accesible y responsive.
