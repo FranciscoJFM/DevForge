@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { wanchinchonLessons } from '@/lib/wanchinchonLessons';
-import { parseV2, runV2, WanV2Error } from '@/lib/wanchinchon-v2';
-import { run, WanError } from '@/lib/wanchinchon';
 
 export default function WanchinchonLearnPage() {
     const [selected, setSelected] = useState(0);
     const [code, setCode] = useState(wanchinchonLessons[0].code);
     const [result, setResult] = useState('');
     const [error, setError] = useState('');
+    const [busy, setBusy] = useState(false);
     const lesson = wanchinchonLessons[selected];
 
     function choose(index: number) {
@@ -23,15 +22,36 @@ export default function WanchinchonLearnPage() {
     function execute() {
         setError('');
         setResult('');
+        setBusy(true);
         try {
-            const isV2 = /\b(chon|fijo|hacer|nace|crea|repite|sino)\b/.test(code);
-            if (isV2) {
-                setResult(runV2(parseV2(code)).messages.join('\n') || '(Sin mensajes)');
-            } else {
-                setResult(run(code).result.messages.join('\n') || '(Sin mensajes)');
-            }
-        } catch (nextError) {
-            setError(nextError instanceof WanError || nextError instanceof WanV2Error ? nextError.message : 'No fue posible ejecutar el programa.');
+            const worker = new Worker('/wanchinchon/wan-worker.mjs', { type: 'module' });
+            const timer = window.setTimeout(() => {
+                worker.terminate();
+                setBusy(false);
+                setError('Tiempo de ejecución excedido (2 segundos).');
+            }, 2000);
+            worker.onmessage = event => {
+                window.clearTimeout(timer);
+                worker.terminate();
+                setBusy(false);
+                const data = event.data as {
+                    ok: boolean;
+                    result?: { messages: string[] };
+                    error?: { message: string };
+                };
+                if (data.ok) setResult(data.result?.messages.join('\n') || '(Sin mensajes)');
+                else setError(data.error?.message || 'No fue posible ejecutar el programa.');
+            };
+            worker.onerror = () => {
+                window.clearTimeout(timer);
+                worker.terminate();
+                setBusy(false);
+                setError('No fue posible cargar el motor de ejecución.');
+            };
+            worker.postMessage({ id: selected + 1, source: code, version: '0.2' });
+        } catch {
+            setBusy(false);
+            setError('No fue posible iniciar el motor.');
         }
     }
 
@@ -59,7 +79,7 @@ export default function WanchinchonLearnPage() {
                         <div>
                             <label className="block font-bold" htmlFor="lesson-code">Código .wan</label>
                             <textarea id="lesson-code" className="field mt-2 min-h-[22rem] font-mono text-sm" value={code} onChange={event => setCode(event.target.value)} spellCheck={false} />
-                            <button type="button" className="btn-primary mt-4" onClick={execute}>Ejecutar lección</button>
+                            <button type="button" className="btn-primary mt-4" onClick={execute} disabled={busy}>{busy ? 'Ejecutando...' : 'Ejecutar lección'}</button>
                         </div>
                         <div>
                             <h3 className="font-bold">Qué significa</h3>
