@@ -2,6 +2,11 @@ export type WanchinchonLesson = {
     number: number;
     slug: string;
     title: string;
+    level?: string;
+    goal?: string;
+    explain?: string;
+    challenge?: string;
+    concepts?: string[];
     summary: string;
     code: string;
     expected: string;
@@ -82,3 +87,15 @@ export const wanchinchonLessons: WanchinchonLesson[] = [
         explanation: ['Puedes combinar funciones y variables.', 'Las decisiones deben verificarse con el resultado visible.', 'Guarda el programa .wan para seguirlo después.'],
     },
 ];
+
+export function findWanchinchonLesson(slug: string) {
+    const aliases: Record<string, string> = {
+        variables: 'datos',
+        condiciones: 'decisiones',
+        ciclos: 'repite',
+        eventos: 'sucesos',
+        'proyecto-final': 'primer-proyecto',
+    };
+    return wanchinchonLessons.find(lesson => lesson.slug === slug)
+        ?? wanchinchonLessons.find(lesson => lesson.slug === aliases[slug]);
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import WanchinchonLab from '@/components/WanchinchonLab';
+import WanchinchonWorkerPlayground from '@/components/WanchinchonWorkerPlayground';
 
 export const metadata: Metadata = {
     title: 'Wanchinchon Playground',
@@ -14,7 +14,7 @@ export default function WanchinchonPlaygroundPage() {
                 <h1 className="mt-3">Wanchinchon Playground</h1>
                 <p>Edita, ejecuta, guarda y explica programas sin enviar el código a un servidor.</p>
             </header>
-            <WanchinchonLab />
+            <WanchinchonWorkerPlayground />
         </main>
     );
 }
