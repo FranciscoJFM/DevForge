@@ -2,12 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import ForumForm from '@/components/ForumForm';
 import { forumAcceptsSubmissions, publishedForumPosts } from '@/lib/forum';
+import FirebaseForum from '@/components/FirebaseForum';
 
 export const metadata: Metadata = { title: 'Foro moderado de Empatía Jobs' };
 export const dynamic = 'force-dynamic';
 
 export default async function ForumPage() {
     const acceptsSubmissions = forumAcceptsSubmissions();
+    const firebaseForum = Boolean(process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
     const posts = acceptsSubmissions ? await publishedForumPosts() : [];
     return <main className="containerx py-16">
         <h1 className="text-4xl font-black md:text-5xl">Foro de Empatía Jobs</h1>
@@ -19,8 +21,8 @@ export default async function ForumPage() {
             <a className="btn-secondary" href="https://www.gob.mx/profedet/es/articulos/conoce-nuestros-servicios">Consultar a PROFEDET</a>
             <Link className="btn-secondary" href="/trabajo-sostenible">Recursos para pedir apoyo</Link>
         </div>
-        {acceptsSubmissions ? <ForumForm /> : <p className="panel mt-8 p-6">El foro está en modo informativo en este alojamiento. Para compartir un caso, consulta primero los recursos de apoyo y elige un canal seguro.</p>}
-        {acceptsSubmissions && <section className="mt-10">
+        {firebaseForum ? <FirebaseForum /> : acceptsSubmissions ? <ForumForm /> : <p className="panel mt-8 p-6">El foro está en modo informativo en este alojamiento. Para compartir un caso, consulta primero los recursos de apoyo y elige un canal seguro.</p>}
+        {!firebaseForum && acceptsSubmissions && <section className="mt-10">
             <h2 className="section-title">Publicaciones aprobadas</h2>
             {posts.length === 0 ? <p className="subtle mt-4">Todavía no hay publicaciones aprobadas.</p> : <div className="mt-4 space-y-4">
                 {posts.map(post => <article className="panel p-6" key={post.id}>

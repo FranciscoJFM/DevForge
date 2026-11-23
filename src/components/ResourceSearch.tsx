@@ -7,6 +7,8 @@ import { posts, products } from '@/lib/data';
 import { studyTracks } from '@/lib/studyTracks';
 
 const resources = [
+    ['DevForge 3.0', '/devforge-3', '20 herramientas técnicas profesionales Rescue Center diagnóstico pruebas arquitectura'],
+    ['Rescue Center', '/rescue-center', 'resolver error despliegue carga laboral tecnología IA'],
     ['Document Studio', '/documentos', 'Word DOCX PDF Excel XLSX plantilla memoria funcional contrato documentación'],
     ['Matriz QA/UAT', '/documentos?plantilla=qa', 'pruebas API Excel evidencia casos defecto'],
     ['Plan de liberación Salesforce', '/documentos?plantilla=liberacion&plataforma=salesforce', 'despliegue Flow verificación reversión'],
@@ -91,6 +93,14 @@ export default function ResourceSearch() {
     }, []);
 
     useEffect(() => {
+        const fromHome = (event: Event) => {
+            const custom = event as CustomEvent<{ query?: string }>;
+            if (!dialog.current || dialog.current.open) return;
+            setQuery(custom.detail?.query?.trim() ?? '');
+            setFavorites(readSaved('devforge-favorites'));
+            setRecent(readSaved('devforge-recent'));
+            dialog.current.showModal();
+        };
         const shortcut = (event: KeyboardEvent) => {
             if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
                 event.preventDefault();
@@ -98,7 +108,11 @@ export default function ResourceSearch() {
             }
         };
         window.addEventListener('keydown', shortcut);
-        return () => window.removeEventListener('keydown', shortcut);
+        window.addEventListener('devforge-open-search', fromHome);
+        return () => {
+            window.removeEventListener('keydown', shortcut);
+            window.removeEventListener('devforge-open-search', fromHome);
+        };
     }, [openSearch]);
 
     const terms = normalize(query).trim().split(/\s+/).filter(Boolean);

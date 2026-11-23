@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { apiCases, confirmed, emptyCase, qaColumns, salesforceRelease, studioTemplates, type QaCase, type StudioDocument, type TemplateId } from '@/lib/documentStudio';
 import { downloadBlob, downloadText } from '@/lib/localDownload';
 import { studioExcel, studioMarkdown, studioWord } from '@/lib/studioExport';
@@ -20,8 +20,51 @@ export default function DocumentStudio({ setup }: { setup: Setup }) {
     const [method, setMethod] = useState(setup.method ?? 'GET');
     const [status, setStatus] = useState('');
     const [busy, setBusy] = useState(false);
+    const [step, setStep] = useState<'datos' | 'contenido' | 'revision'>('datos');
+    const [diagram, setDiagram] = useState('');
     const definition = studioTemplates[template];
     const data: StudioDocument = { template, project, version, owner, fields, cases };
+
+    useEffect(() => {
+        try {
+            localStorage.setItem('devforge-document-autosave', JSON.stringify({
+                template, project, version, owner, fields, cases, method, diagram,
+            }));
+        } catch {
+            // Autoguardado no debe impedir el uso de la vista previa.
+        }
+    }, [template, project, version, owner, fields, cases, method, diagram]);
+
+    function restoreDraft() {
+        try {
+            const stored = localStorage.getItem('devforge-document-autosave');
+            if (!stored) {
+                setStatus('No hay un borrador guardado en este navegador.');
+                return;
+            }
+            const draft = JSON.parse(stored) as {
+                template?: TemplateId;
+                project?: string;
+                version?: string;
+                owner?: string;
+                fields?: Record<string, string>;
+                cases?: QaCase[];
+                method?: string;
+                diagram?: string;
+            };
+            if (draft.template) setTemplate(draft.template);
+            if (typeof draft.project === 'string') setProject(draft.project);
+            if (typeof draft.version === 'string') setVersion(draft.version);
+            if (typeof draft.owner === 'string') setOwner(draft.owner);
+            if (draft.fields) setFields(draft.fields);
+            if (draft.cases) setCases(draft.cases);
+            if (draft.method) setMethod(draft.method);
+            if (typeof draft.diagram === 'string') setDiagram(draft.diagram);
+            setStatus('Borrador local restaurado.');
+        } catch {
+            setStatus('No se pudo restaurar el borrador local.');
+        }
+    }
 
     async function exportFile(kind: keyof typeof filenames) {
         if (busy) return;
@@ -47,8 +90,18 @@ export default function DocumentStudio({ setup }: { setup: Setup }) {
         setStatus('Ejemplo ficticio cargado.');
     }
 
-    return <div className="studio-document mt-8 grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <section className="studio-controls panel p-5">
+    return <div className="studio-document mt-8">
+        <nav className="studio-step-nav jump-nav" aria-label="Pasos del documento">
+            {(['datos', 'contenido', 'revision'] as const).map((item, index) => (
+                <button key={item} type="button" className="btn-secondary" aria-pressed={step === item} onClick={() => setStep(item)}>
+                    {index + 1}. {item === 'datos' ? 'Datos' : item === 'contenido' ? 'Contenido' : 'Revisión'}
+                </button>
+            ))}
+            <button type="button" className="btn-secondary" onClick={restoreDraft}>Restaurar borrador</button>
+        </nav>
+        <p role="status" className="subtle mt-3">Autoguardado local activo en este navegador.</p>
+        <div className="mt-4 grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        {step !== 'revision' && <section className="studio-controls panel p-5">
             <h2 className="text-xl font-bold">Datos del documento</h2>
             <label className="mt-4 block font-semibold">Tipo de documento<select className="field mt-2" value={template} onChange={event => {
                 setTemplate(event.target.value as TemplateId);
@@ -120,8 +173,13 @@ export default function DocumentStudio({ setup }: { setup: Setup }) {
                 <button className="btn-secondary" type="button" disabled={cases.length >= maxCases}
                     onClick={() => setCases(current => [...current, { ...emptyCase }])}>Añadir caso en blanco</button>
             </div>}
-        </section>
-        <div className="min-w-0">
+            {step !== 'datos' && <label className="mt-5 block font-semibold">Diagrama Mermaid
+                <textarea className="field mt-2 min-h-24 font-mono text-sm" value={diagram}
+                    onChange={event => setDiagram(event.target.value)}
+                    placeholder={'flowchart LR\n  Usuario --> API\n  API --> Datos'} />
+            </label>}
+        </section>}
+        {step !== 'datos' && <div className="min-w-0">
             <div className="studio-controls mb-4 flex flex-wrap gap-2">
                 <button type="button" className="btn-primary" disabled={busy} onClick={() => void exportFile(template === 'qa' ? 'excel' : 'word')}>
                     {template === 'qa' ? 'Descargar Excel' : 'Descargar Word'}</button>
@@ -140,6 +198,10 @@ export default function DocumentStudio({ setup }: { setup: Setup }) {
                         <div><dt className="subtle">Responsable</dt><dd>{confirmed(owner)}</dd></div>
                     </dl>
                 </header>
+                {diagram && <section className="studio-block border-b border-[color:var(--line)] py-4">
+                    <h3 className="text-lg font-bold">Diagrama de arquitectura</h3>
+                    <pre className="field mt-2 overflow-auto text-sm"><code>{diagram}</code></pre>
+                </section>}
                 {template === 'qa' ? <div className="space-y-4 pt-4">
                     {cases.map((row, index) => <section className="studio-block" key={index}>
                         <h3 className="text-lg font-bold">{index + 1}. {confirmed(row.scenario)}</h3>
@@ -157,6 +219,7 @@ export default function DocumentStudio({ setup }: { setup: Setup }) {
             </article>
             <p className="studio-controls subtle mt-4 text-sm">El navegador prepara los archivos. Al abrir el Word, actualiza el índice si tu editor lo solicita.</p>
             <Link className="studio-controls text-link mt-3 inline-block" href="/expediente">Volver al expediente</Link>
+        </div>}
         </div>
     </div>;
 }

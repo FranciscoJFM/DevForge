@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BookOpen, Braces, BriefcaseBusiness, FileCode2, GitPullRequest, HeartHandshake, ShieldCheck, Terminal, Workflow } from 'lucide-react';
 import HeroWorkbench from '@/components/HeroWorkbench';
+import HomeSearch from '@/components/HomeSearch';
 
 const quickLinks = [
     { name: 'Crear un documento', detail: 'Word, PDF, Excel y Markdown', href: '/documentos', icon: FileCode2 },
@@ -33,6 +34,7 @@ export default function Home() {
                     <p className="hero-topic">Salesforce <span>·</span> Android <span>·</span> Web</p>
                     <h1>Aprende. Construye. <span>Resuelve.</span></h1>
                     <p className="hero-description">Practica con problemas reales de desarrollo, comprueba tus soluciones y crece profesionalmente sin descuidar tu bienestar.</p>
+                    <HomeSearch />
                     <div className="hero-actions">
                         <Link className="btn-primary" href="/rescue-center"><Braces size={19} aria-hidden="true" /> Resolver un problema</Link>
                         <Link className="btn-secondary" href="/academia"><BookOpen size={18} aria-hidden="true" /> Comenzar a aprender</Link>

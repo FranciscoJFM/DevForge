@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import WorkSituationAssistant from '@/components/WorkSituationAssistant';
+import DevProtectWorkspace from '@/components/DevProtectWorkspace';
 
 export const metadata: Metadata = { title: 'Trabajo sostenible para desarrolladores' };
 
@@ -14,6 +15,7 @@ export default function SustainableWorkPage() {
             <div className="mt-8">
                 <WorkSituationAssistant />
             </div>
+            <DevProtectWorkspace />
             <div className="mt-8 grid gap-5 md:grid-cols-2">
                 <section className="panel p-6">
                     <h2 className="text-xl font-bold">Negocia qué cabe en la fecha</h2>

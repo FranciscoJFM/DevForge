@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import ReviewChecklist from '@/components/ReviewChecklist';
 import PromptBuilder from '@/components/PromptBuilder';
+import AiVerificationArena from '@/components/AiVerificationArena';
 
 export const metadata: Metadata = { title: 'IA responsable en el IDE' };
 
@@ -32,6 +33,7 @@ export default function ResponsibleAiPage() {
                 Decide qué contexto compartes, qué permisos das y cómo vas a verificar el trabajo generado.
             </p>
             <PromptBuilder />
+            <AiVerificationArena />
             <div className="mt-10 grid gap-5 md:grid-cols-2">
                 {steps.map(({ title, description }) => (
                     <section key={title} className="panel p-6">

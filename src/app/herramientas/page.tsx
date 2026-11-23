@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import StackToolbox from '@/components/StackToolbox';
+import ToolsWorkspace from '@/components/ToolsWorkspace';
 
 export const metadata: Metadata = {
     title: 'Herramientas para desarrolladores',
@@ -28,6 +29,7 @@ export default function ToolsPage() {
             <h1>Herramientas para desarrolladores</h1>
             <p>Prepara consultas, prueba tu código y genera documentación para el stack que usas.</p>
         </header>
+        <ToolsWorkspace />
         <nav aria-label="Secciones de herramientas" className="jump-nav">
             <a href="#integraciones">Integraciones</a>
             <a href="#texto">JSON y texto</a>

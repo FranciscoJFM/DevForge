@@ -136,6 +136,15 @@ input[type="checkbox"] { accent-color: var(--accent); }
 .home-hero h1 span { color: var(--accent); }
 .hero-description { max-width: 48ch; margin-top: 1.2rem; color: #bdcfc5; font-size: clamp(1rem, 2vw, 1.18rem); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.6rem; }
+.home-search { max-width: 48rem; margin-top: 1.35rem; }
+.home-search-label { display: block; margin-bottom: .55rem; font-weight: 800; }
+.home-search-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .65rem; border: 1px solid #527b67; border-radius: .85rem; background: #0d1714; padding: .45rem .45rem .45rem .8rem; }
+.home-search-row > svg { color: var(--accent); }
+.home-search-row input { min-width: 0; border: 0; background: transparent; color: var(--text); outline: none; padding: .65rem 0; }
+.home-search-row input::placeholder { color: #9eb0a7; }
+.home-search-suggestions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .55rem; }
+.home-search-suggestions button { min-height: 36px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); padding: .35rem .65rem; font-size: .78rem; }
+.home-search-suggestions button:hover { border-color: var(--accent); color: var(--accent); }
 .entry-paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.7rem), 1fr)); gap: .55rem; margin-top: 1.4rem; }
 .entry-paths a { display: grid; align-content: start; gap: .2rem; border: 1px solid var(--line); border-radius: .72rem; background: var(--surface); padding: .7rem .75rem; }
 .entry-paths a:hover { border-color: var(--accent); background: var(--surface-raised); }
@@ -334,6 +343,7 @@ input[type="checkbox"] { accent-color: var(--accent); }
 :root[data-theme="light"] .situation-options button:hover,
 :root[data-theme="light"] .situation-options button[aria-pressed="true"] { background: #d8ecdf; }
 :root[data-theme="light"] .situation-result > p:not(.mini-tag):not(.situation-privacy) { color: var(--muted); }
+:root[data-theme="light"] .home-search-row { background: #f7fbf8; border-color: #98b3a4; }
 :root[data-theme="light"] .status-production { background: #dff4e8; color: #15553b; border-color: #8dbba7; }
 :root[data-theme="light"] .status-public { background: #dfeef7; color: #28566f; border-color: #96b7c8; }
 :root[data-theme="light"] .status-demo { background: #f7efcf; color: #67531c; border-color: #c4b774; }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import QuickFixes from '@/components/QuickFixes';
+import CustomDiagnostic from '@/components/CustomDiagnostic';
 
 export const metadata: Metadata = { title: 'Debug Lab', description: 'Diagnósticos reproducibles de Next.js, Salesforce REST y SOAP.' };
 
@@ -39,6 +40,7 @@ export default function DebugLab() {
         <main className="containerx py-16">
             <h1 className="text-4xl font-black">Debug Lab</h1>
             <p className="subtle mt-4">Diagnostica un síntoma, aplica el cambio y comprueba el resultado.</p>
+            <CustomDiagnostic />
             <Link className="btn-primary mt-5" href="/retos">Practicar con un ticket</Link>
             <div className="mt-8 space-y-6">
                 {cases.map(item => (
