@@ -33,7 +33,7 @@ export default function Home() {
                     <h1>Aprende. Construye. <span>Resuelve.</span></h1>
                     <p className="hero-description">Practica con problemas reales de desarrollo, comprueba tus soluciones y crece profesionalmente sin descuidar tu bienestar.</p>
                     <div className="hero-actions">
-                        <Link className="btn-primary" href="/herramientas"><Braces size={19} aria-hidden="true" /> Explorar herramientas</Link>
+                        <Link className="btn-primary" href="/rescue-center"><Braces size={19} aria-hidden="true" /> Resolver un problema</Link>
                         <Link className="btn-secondary" href="/academia"><BookOpen size={18} aria-hidden="true" /> Comenzar a aprender</Link>
                     </div>
                     <nav aria-label="Cómo empezar" className="entry-paths">
