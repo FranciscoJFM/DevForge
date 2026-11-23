@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BookOpen, Braces, BriefcaseBusiness, FileCode2, GitPullRequest, HeartHandshake, ShieldCheck, Terminal, Workflow } from 'lucide-react';
+import { Boxes, BookOpen, Braces, BriefcaseBusiness, FileCode2, GitPullRequest, HeartHandshake, ShieldCheck, Terminal, Workflow } from 'lucide-react';
 import HeroWorkbench from '@/components/HeroWorkbench';
 import HomeSearch from '@/components/HomeSearch';
 
@@ -15,6 +15,7 @@ const quickLinks = [
 const entryPaths = [
     { name: 'Resuelve', detail: 'Diagnóstico guiado por problema', href: '/rescue-center', icon: ShieldCheck },
     { name: 'Aprende', detail: 'Rutas y proyectos guiados', href: '/academia', icon: BookOpen },
+    { name: 'Crea', detail: 'Lenguaje de mundos y sucesos', href: '/wanchinchon', icon: Boxes },
     { name: 'Practica', detail: 'Laboratorios, código y diagnósticos', href: '/herramientas', icon: Terminal },
     { name: 'Crece', detail: 'Inglés, carrera y trabajo sostenible', href: '/empleo', icon: BriefcaseBusiness },
     { name: 'Protégete', detail: 'Límites, acuerdos y canales de apoyo', href: '/trabajo-sostenible', icon: ShieldCheck },
@@ -93,6 +94,22 @@ export default function Home() {
                     <Link href="/ia-responsable" className="text-link">IA en el IDE</Link>
                 </div>
             </article>
+        </section>
+
+        <section className="containerx home-section" aria-labelledby="home-wanchinchon">
+            <div className="microapp-feature">
+                <div>
+                    <p className="pill">Wanchinchon 0.2</p>
+                    <h2 id="home-wanchinchon" className="section-title mt-3">Imagina un mundo. Dale vida con código.</h2>
+                    <p>Todo comenzó con una toalla llamada wanchonchin. Aprende, escribe, ejecuta y explica tus propios programas.</p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                    <Link href="/wanchinchon/aprender" className="btn-primary">Iniciar curso</Link>
+                    <Link href="/wanchinchon/playground" className="btn-secondary">Abrir playground</Link>
+                    <Link href="/wanchinchon/docs" className="btn-secondary">Ver documentación</Link>
+                    <Link href="/wanchinchon/mundos" className="btn-secondary">Explorar mundos</Link>
+                </div>
+            </div>
         </section>
 
         <section id="productos" className="containerx home-section" aria-labelledby="home-apps">

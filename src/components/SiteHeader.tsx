@@ -10,7 +10,8 @@ import { useAuth } from '@/components/AuthProvider';
 
 const links = [
     { href: '/desarrollo', label: 'Desarrollo', related: ['/proyectos', '/trayectoria'] },
-    { href: '/academia', label: 'Academia', related: ['/wanchinchon', '/videoblog', '/ingles', '/retos'] },
+    { href: '/academia', label: 'Academia', related: ['/videoblog', '/ingles', '/retos'] },
+    { href: '/wanchinchon', label: 'Wanchinchon', related: ['/wanchinchon/aprender', '/wanchinchon/docs', '/wanchinchon/mundos', '/wanchinchon/playground'] },
     { href: '/herramientas', label: 'Herramientas', related: ['/devforge-3', '/rescue-center', '/api-studio', '/integration-lab', '/debug', '/ejemplos', '/git', '/revision-codigo', '/playground', '/project-builder', '/cliente-http', '/ide', '/expediente', '/documentos'] },
     { href: '/apps', label: 'Microapps', related: [] },
     { href: '/empleo', label: 'Empleo', related: ['/analizar-vacante', '/guia-empleo', '/entrevistas', '/portafolio', '/foro', '/trabajo-sostenible'] },
@@ -58,6 +59,10 @@ export default function SiteHeader() {
                         {navigation(true)}
                         <Link className="site-nav-link" href="/rescue-center" data-active={pathname === '/rescue-center'} onClick={() => { if (menu.current) menu.current.open = false; }}>Rescue Center</Link>
                         <Link className="site-nav-link" href="/devforge-3" data-active={pathname === '/devforge-3'} onClick={() => { if (menu.current) menu.current.open = false; }}>DevForge 3.0</Link>
+                        <Link className="site-nav-link" href="/wanchinchon/aprender" data-active={pathname.startsWith('/wanchinchon/aprender')} onClick={() => { if (menu.current) menu.current.open = false; }}>Wanchinchon · Aprender</Link>
+                        <Link className="site-nav-link" href="/wanchinchon/docs" data-active={pathname === '/wanchinchon/docs'} onClick={() => { if (menu.current) menu.current.open = false; }}>Wanchinchon · Documentación</Link>
+                        <Link className="site-nav-link" href="/wanchinchon/mundos" data-active={pathname === '/wanchinchon/mundos'} onClick={() => { if (menu.current) menu.current.open = false; }}>Wanchinchon · Mundos</Link>
+                        <Link className="site-nav-link" href="/wanchinchon/playground" data-active={pathname === '/wanchinchon/playground'} onClick={() => { if (menu.current) menu.current.open = false; }}>Wanchinchon · Playground</Link>
                     </nav>
                 </details>
             </div>

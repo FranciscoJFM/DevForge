@@ -8,6 +8,8 @@ import { studyTracks } from '@/lib/studyTracks';
 
 const resources = [
     ['Wanchinchon Lang', '/wanchinchon', 'lenguaje educativos mundos seres vínculos sucesos reglas toalla Wanchinchon'],
+    ['Historia de Wanchinchon', '/wanchinchon', 'historia niño toalla wanchonchin familia imaginación'],
+    ['Explorar mundos Wanchinchon', '/wanchinchon/mundos', 'galería casa invernadero ejemplos seres sucesos'],
     ['Aprender Wanchinchon', '/wanchinchon/aprender', 'curso lecciones variables funciones constructores sucesos'],
     ['Documentación Wanchinchon', '/wanchinchon/docs', 'sintaxis tipos operadores condiciones variables funciones seres sucesos'],
     ['Playground Wanchinchon', '/wanchinchon/playground', 'editor ejecutar consola guardar exportar .wan explicar código'],

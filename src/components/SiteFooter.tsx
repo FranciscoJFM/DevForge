@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 const groups = [
     { title: 'Aprender', links: [['Academia', '/academia'], ['Desarrollo', '/desarrollo'], ['Videoblog', '/videoblog']] },
+    { title: 'Wanchinchon', links: [['Historia', '/wanchinchon'], ['Curso', '/wanchinchon/aprender'], ['Documentación', '/wanchinchon/docs'], ['Mundos', '/wanchinchon/mundos'], ['Playground', '/wanchinchon/playground']] },
     { title: 'Construir', links: [['Herramientas', '/herramientas'], ['Proyectos', '/proyectos'], ['Microapps', '/apps']] },
     { title: 'Comunidad', links: [['Empatía Jobs', '/empleo'], ['Foro moderado', '/foro'], ['Contacto', '/contacto']] },
 ];
