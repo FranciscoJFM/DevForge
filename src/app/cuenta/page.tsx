@@ -19,6 +19,12 @@ function readableAuthError(error: unknown) {
     const code = error && typeof error === 'object' && 'code' in error
         ? String(error.code)
         : '';
+    if (code.includes('operation-not-allowed')) return 'Este método de acceso no está habilitado en Firebase Authentication.';
+    if (code.includes('unauthorized-domain')) return 'El dominio de Vercel no está autorizado en Firebase Authentication.';
+    if (code.includes('popup-blocked')) return 'El navegador bloqueó la ventana de Google. Permite ventanas emergentes y vuelve a intentarlo.';
+    if (code.includes('invalid-api-key')) return 'La configuración pública de Firebase no es válida.';
+    if (code.includes('app-not-authorized')) return 'Esta aplicación no está autorizada en el proyecto Firebase.';
+    if (code.includes('network-request-failed')) return 'No fue posible contactar a Firebase. Revisa tu conexión e inténtalo nuevamente.';
     if (code.includes('invalid-credential') || code.includes('wrong-password')) return 'Correo o contraseña incorrectos.';
     if (code.includes('email-already-in-use')) return 'Ya existe una cuenta con este correo.';
     if (code.includes('weak-password')) return 'La contraseña debe tener al menos 6 caracteres.';
